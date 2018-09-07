@@ -1,0 +1,7 @@
+{
+  "name": "wuglion",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
