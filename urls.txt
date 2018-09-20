@@ -1,0 +1,1 @@
+https://aws-amplify.github.io/amplify-js/media/ionic_guide
