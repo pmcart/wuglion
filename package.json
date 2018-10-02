@@ -25,10 +25,16 @@
     "@ionic-native/status-bar": "5.0.0-beta.15",
     "@ionic/angular": "4.0.0-beta.7",
     "@ionic/pro": "2.0.3",
+    "@types/jasmine": "2.2.30",
+    "@types/node": "^8.5.2",
+    "@types/selenium-webdriver": "2.44.26",
+    "amazon-cognito-identity-js": "1.29.0",
     "aws-amplify": "^1.1.1",
     "aws-amplify-angular": "^2.0.4",
+    "aws-sdk": "2.67.0",
     "core-js": "^2.5.3",
     "rxjs": "6.2.2",
+    "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

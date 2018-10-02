@@ -3,8 +3,15 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
-  production: false
-};
+  production: false,
+  amplify: {
+    Auth: {
+      identityPoolId: 'eu-west-1:1c457d19-8db2-44d0-a9f1-03ac5843965f',
+      region: 'eu-west-1',
+      userPoolId: 'eu-west-1_4zSG7CqBd',
+      userPoolWebClientId: '77fqt7bc2bqkfepr8npq7trpvv'
+    }
+}
 
 /*
  * In development mode, to ignore zone related error stack frames such as
