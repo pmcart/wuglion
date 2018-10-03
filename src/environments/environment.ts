@@ -12,6 +12,7 @@ export const environment = {
       userPoolWebClientId: '77fqt7bc2bqkfepr8npq7trpvv'
     }
 }
+}
 
 /*
  * In development mode, to ignore zone related error stack frames such as

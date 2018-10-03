@@ -33,6 +33,7 @@
     "aws-amplify-angular": "^2.0.4",
     "aws-sdk": "2.67.0",
     "core-js": "^2.5.3",
+    "ngx-facebook": "^2.4.0",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.3",
     "zone.js": "^0.8.26"

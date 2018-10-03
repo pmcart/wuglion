@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
+import { FacebookService, InitParams } from 'ngx-facebook';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -12,7 +12,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private fb: FacebookService
   ) {
     this.initializeApp();
   }
@@ -22,5 +23,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    let initParams: InitParams = {
+      appId: '2089957577702736',
+      xfbml: true,
+      version: 'v2.10'
+    };
+ 
+    this.fb.init(initParams);
   }
 }
