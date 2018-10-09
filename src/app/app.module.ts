@@ -8,7 +8,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from './auth/auth.service';
+//import { AuthService } from './auth/auth.service';
+import Amplify, { Auth } from 'aws-amplify';
 import { FacebookModule } from 'ngx-facebook';
 
 @NgModule({
@@ -17,7 +18,7 @@ import { FacebookModule } from 'ngx-facebook';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FacebookModule.forRoot()],
   providers: [
     StatusBar,
-    AuthService,
+    Amplify,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
