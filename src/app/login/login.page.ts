@@ -27,46 +27,21 @@ export class LoginPage implements OnInit {
     //     error => {
     //       console.log(error);
     //     });
-    this.loginWithFacebook()
+    //this.loginWithFacebook()
   }
 
   loginWithFacebook(): void {
     console.log('Calling loginWithFacebook');
 
-      this.fb.login().then((response: LoginResponse) => {
-        if (response.authResponse) {
-          const token = response.authResponse.accessToken
-          const expires = response.authResponse.expiresIn
-          const userID = response.authResponse.userID
-          console.log(response.authResponse)
-          //console.log('You are now logged in.');
-          // return Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: userID })
-          // .then(credentials => {
-          //   console.log('get aws credentials', credentials);
-          // }).catch(e => {
-          //   console.log(e);
-          // });
-          // Add the Facebook access token to the Cognito credentials login map.
-          // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          //   IdentityPoolId: 'IDENTITY_POOL_ID',
-          //   Logins: {
-          //     'graph.facebook.com': response.authResponse.accessToken
-          //   }
-          // });
-      
-          // Obtain AWS credentials
-          // AWS.config.credentials.get(function(){
-          //   // Credentials will be available when this function is called.
-          //   var accessKeyId = AWS.config.credentials.accessKeyId;
-          //   var secretAccessKey = AWS.config.credentials.secretAccessKey;
-          //   var sessionToken = AWS.config.credentials.sessionToken;
-          // });
-      
-        } else {
-          console.log('There was a problem logging you in.');
-        }
-      
-        }).catch((error: any) => console.error(error));
+    this.fb.login('email public_profile').then((authData) => {
+      this.auth.federatedSignIn('facebook', {
+          token: authData.authResponse.accessToken,
+          expires_at: authData.authResponse.expiresIn
+        }, authData.authResponse.userID)
+        .then(user => console.log(user))
+        .catch(err => console.log(err));
+      console.log(authData)
+        });
       }
     
 }
