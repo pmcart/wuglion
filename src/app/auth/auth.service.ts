@@ -20,6 +20,7 @@ export class AuthService {
     this.loggedIn = new BehaviorSubject<boolean>(false);
   }
 
+
   /** signup */
   public signUp(email, password): Observable<any> {
     return fromPromise(Auth.signUp(email, password));

@@ -1,9 +1,22 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-grid>
+	<ion-row justify-content-center>
+		<ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+			<div text-center>
+				<h4>Signup Form</h4>
+			</div>
+			<div padding>
+				<ion-item>
+					<ion-input type="text" placeholder="Username" #username></ion-input>
+				</ion-item>
 
-<ion-content padding>
+				<ion-item>
+					<ion-input type="password" placeholder="Password" #password></ion-input>
+				</ion-item>
+			</div>
 
-</ion-content>
+			<div padding>
+				<ion-button size="large" (click)="signup(username.value,password.value)" expand="block">Signup</ion-button>
+			</div>
+		</ion-col>
+	</ion-row>
+</ion-grid>
