@@ -5,6 +5,7 @@ import {
   FacebookService,
   LoginResponse
 } from 'ngx-facebook';
+
 import Amplify, { Auth } from 'aws-amplify';
 import { environment } from './../../environments/environment';
 
@@ -17,6 +18,8 @@ export class SignupPage implements OnInit {
 
   constructor(private amplify: Amplify, private fb: FacebookService) { 
     Amplify.configure(environment.amplify);
+
+    
   }
 
   ngOnInit() {

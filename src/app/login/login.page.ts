@@ -33,15 +33,15 @@ export class LoginPage implements OnInit {
   loginWithFacebook(): void {
     console.log('Calling loginWithFacebook');
 
-    this.fb.login('email public_profile').then((authData) => {
-      this.auth.federatedSignIn('facebook', {
-          token: authData.authResponse.accessToken,
-          expires_at: authData.authResponse.expiresIn
-        }, authData.authResponse.userID)
-        .then(user => console.log(user))
-        .catch(err => console.log(err));
-      console.log(authData)
-        });
-      }
+    // this.fb.login('email public_profile').then((authData) => {
+    //   this.auth.federatedSignIn('facebook', {
+    //       token: authData.authResponse.accessToken,
+    //       expires_at: authData.authResponse.expiresIn
+    //     }, authData.authResponse.userID)
+    //     .then(user => console.log(user))
+    //     .catch(err => console.log(err));
+    //   console.log(authData)
+    //     });
+       }
     
 }

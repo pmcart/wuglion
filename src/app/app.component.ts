@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FacebookService, InitParams } from 'ngx-facebook';
+// import * as AWS from 'aws-sdk';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -28,12 +29,14 @@ export class AppComponent {
       xfbml: true,
       version: 'v2.10'
     };
-    AWS.util.isNode = function() {
-      return false;
-  };
-  AWS.util.isBrowser = function() {
-      return true;
-  };
+    
+    // AWS.util.isNode = function() {
+    //   return false;
+    // };
+    // AWS.
+    // AWS.util.isBrowser = function() {
+    //     return true;
+    // };
  
     this.fb.init(initParams);
   }
