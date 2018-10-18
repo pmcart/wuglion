@@ -11,11 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 //import { AuthService } from './auth/auth.service';
 import Amplify, { Auth } from 'aws-amplify';
 import { FacebookModule } from 'ngx-facebook';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FacebookModule.forRoot()],
+  imports: [BrowserModule,HttpModule, IonicModule.forRoot(), AppRoutingModule, FacebookModule.forRoot()],
   providers: [
     StatusBar,
     Amplify,

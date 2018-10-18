@@ -8,6 +8,13 @@ import {
 
 import Amplify, { Auth } from 'aws-amplify';
 import { environment } from './../../environments/environment';
+import {
+  Http,
+  Response,
+  RequestOptions,
+  RequestOptionsArgs,
+  Headers
+} from '@angular/http';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +23,7 @@ import { environment } from './../../environments/environment';
 })
 export class SignupPage implements OnInit {
 
-  constructor(private amplify: Amplify, private fb: FacebookService) { 
+  constructor(private amplify: Amplify, private fb: FacebookService, private http:Http) { 
     Amplify.configure(environment.amplify);
 
     
@@ -32,7 +39,30 @@ export class SignupPage implements OnInit {
       username,
       password
       })
-      .then(data => console.log(data))
+      .then(data => 
+        {
+          console.log(data)
+        
+          var options = new RequestOptions({
+            headers : new Headers({
+              'Content-Type':'application/json',
+              'X-Amz-Date':'',
+              'Authorization':'',
+              'X-Api-Key':'Qbamo0p58RapKt01y76I04ma6CRVG1JY9DiZ88cI',
+              'X-Amz-Security-Token':''
+            })
+          });
+         
+            this.http.post("https://54nd9roo94.execute-api.eu-west-1.amazonaws.com/dev/users", data,options).subscribe(
+              data => {
+                console.log(data)
+              },
+              error => {
+                console.log(JSON.stringify(error.json()));
+              }
+            )
+          
+        })
       .catch(err => console.log(err));
   }
 
@@ -53,22 +83,7 @@ export class SignupPage implements OnInit {
           }).catch(e => {
             console.log(e);
           });
-          // Add the Facebook access token to the Cognito credentials login map.
-          // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          //   IdentityPoolId: 'IDENTITY_POOL_ID',
-          //   Logins: {
-          //     'graph.facebook.com': response.authResponse.accessToken
-          //   }
-          // });
-      
-          // Obtain AWS credentials
-          // AWS.config.credentials.get(function(){
-          //   // Credentials will be available when this function is called.
-          //   var accessKeyId = AWS.config.credentials.accessKeyId;
-          //   var secretAccessKey = AWS.config.credentials.secretAccessKey;
-          //   var sessionToken = AWS.config.credentials.sessionToken;
-          // });
-      
+     
         } else {
           console.log('There was a problem logging you in.');
         }
