@@ -25,16 +25,12 @@ export class SignupPage implements OnInit {
 
   constructor(private amplify: Amplify, private fb: FacebookService, private http:Http) { 
     Amplify.configure(environment.amplify);
-
-    
   }
 
   ngOnInit() {
   }
 
   signup(username:string,password:string){
-    console.log('Clicked')
-    //console.log(Auth.getAmplifyDetails())
     Auth.signUp({
       username,
       password
@@ -45,15 +41,11 @@ export class SignupPage implements OnInit {
         
           var options = new RequestOptions({
             headers : new Headers({
-              'Content-Type':'application/json',
-              'X-Amz-Date':'',
-              'Authorization':'',
-              'X-Api-Key':'Qbamo0p58RapKt01y76I04ma6CRVG1JY9DiZ88cI',
-              'X-Amz-Security-Token':''
+              'Content-Type':'application/json' 
             })
           });
          
-            this.http.post("https://54nd9roo94.execute-api.eu-west-1.amazonaws.com/dev/users", data,options).subscribe(
+            this.http.post(environment.api +'/users/create', data,options).subscribe(
               data => {
                 console.log(data)
               },

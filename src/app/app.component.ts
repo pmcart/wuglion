@@ -29,15 +29,7 @@ export class AppComponent {
       xfbml: true,
       version: 'v2.10'
     };
-    
-    // AWS.util.isNode = function() {
-    //   return false;
-    // };
-    // AWS.
-    // AWS.util.isBrowser = function() {
-    //     return true;
-    // };
- 
+   
     this.fb.init(initParams);
   }
 }

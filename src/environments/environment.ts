@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
   production: false,
+  api: 'http://localhost:8080',
   amplify: {
     Auth: {
       identityPoolId: 'eu-west-1:1c457d19-8db2-44d0-a9f1-03ac5843965f',
