@@ -43,8 +43,8 @@ export class SignupPage implements OnInit {
           });
           // Create entry in DB with new user
           this.http.post(environment.api + '/users/create', data, options).subscribe(
-            data2 => {
-              console.log(data2);
+            data => {
+              console.log(data);
             },
             error => {
               console.log(JSON.stringify(error.json()));
