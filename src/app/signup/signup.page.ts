@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FacebookService,
-  LoginResponse
+  LoginResponse,
+  LoginOptions
 } from 'ngx-facebook';
 import Amplify, { Auth } from 'aws-amplify';
 import { environment } from './../../environments/environment';
@@ -56,22 +57,49 @@ export class SignupPage implements OnInit {
   }
 
   signupFacebook(): void {
-    console.log('Calling signupFacebook');
+      console.log('Calling signupFacebook');
 
-      this.fb.login().then((response: LoginResponse) => {
+      const options: LoginOptions = {
+        scope: 'public_profile,user_friends,email,pages_show_list',
+        return_scopes: true,
+        enable_profile_selector: true
+      };
+
+      this.fb.login(options).then((response: LoginResponse) => {
         if (response.authResponse) {
           const token = response.authResponse.accessToken;
           const expires = response.authResponse.expiresIn;
           const userID = response.authResponse.userID;
-          console.log(response.authResponse);
+          console.log(response);
           console.log('You are now logged in.');
+          this.fb.api('/me?fields=name,email&access_token=' + token).then(res => {
+                console.log(res);
+                Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
+                .then(credentials => {
+                  const options2 = new RequestOptions({
+                    headers : new Headers({
+                      'Content-Type': 'application/json'
+                    })
+                  });
 
-          Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
-          .then(credentials => {
-            console.log('get aws credentials', credentials);
-          }).catch(e => {
-            console.log(e);
-          });
+                  const userData = {
+                    userSub:  '',
+                    username: res.email
+                  };
+                  
+                  this.http.post(environment.api + '/users/create', userData, options2).subscribe(
+                    data => {
+                      console.log(data);
+                    },
+                    error => {
+                      console.log(JSON.stringify(error.json()));
+                    }
+                  );
+                }).catch(e => {
+                  console.log(e);
+                });
+            }
+          ).catch(e => console.log(e));
 
         } else {
           console.log('There was a problem logging you in.');
