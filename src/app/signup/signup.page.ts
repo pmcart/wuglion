@@ -7,13 +7,8 @@ import {
 } from 'ngx-facebook';
 import Amplify, { Auth } from 'aws-amplify';
 import { environment } from './../../environments/environment';
-import {
-  Http,
-  Response,
-  RequestOptions,
-  RequestOptionsArgs,
-  Headers
-} from '@angular/http';
+import { ApiService } from '../services/api.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +17,7 @@ import {
 })
 export class SignupPage implements OnInit {
 
-  constructor(private amplify: Amplify, private fb: FacebookService, private http: Http) {
+  constructor(private amplify: Amplify, private fb: FacebookService, private apiService: ApiService) {
     Amplify.configure(environment.amplify);
   }
 
@@ -37,21 +32,7 @@ export class SignupPage implements OnInit {
       })
       .then(data => {
           console.log(data);
-          const options = new RequestOptions({
-            headers : new Headers({
-              'Content-Type': 'application/json'
-            })
-          });
-          // Create entry in DB with new user
-          this.http.post(environment.api + '/users/create', data, options).subscribe(
-            data => {
-              console.log(data);
-            },
-            error => {
-              console.log(JSON.stringify(error.json()));
-            }
-          );
-
+          this.apiService.createUser(data);
         })
       .catch(err => console.log(err));
   }
@@ -70,31 +51,18 @@ export class SignupPage implements OnInit {
           const token = response.authResponse.accessToken;
           const expires = response.authResponse.expiresIn;
           const userID = response.authResponse.userID;
-          console.log(response);
-          console.log('You are now logged in.');
-          this.fb.api('/me?fields=name,email&access_token=' + token).then(res => {
+
+          this.fb.api('/me?fields=name,email,id,hometown,location').then(res => {
                 console.log(res);
                 Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
-                .then(credentials => {
-                  const options2 = new RequestOptions({
-                    headers : new Headers({
-                      'Content-Type': 'application/json'
-                    })
-                  });
-
+                .then(credentials => {            
                   const userData = {
                     userSub:  '',
-                    username: res.email
-                  };
-                  
-                  this.http.post(environment.api + '/users/create', userData, options2).subscribe(
-                    data => {
-                      console.log(data);
-                    },
-                    error => {
-                      console.log(JSON.stringify(error.json()));
+                    user: {
+                      username: res.email
                     }
-                  );
+                  };
+                  this.apiService.createUser(userData);
                 }).catch(e => {
                   console.log(e);
                 });

@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-//import { AuthService } from './auth/auth.service';
+import { ApiService } from './services/api.service';
 import Amplify, { Auth } from 'aws-amplify';
 import { FacebookModule } from 'ngx-facebook';
 import { HttpModule } from '@angular/http';
@@ -16,11 +16,12 @@ import { HttpModule } from '@angular/http';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule,HttpModule, IonicModule.forRoot(), AppRoutingModule, FacebookModule.forRoot()],
+  imports: [BrowserModule, HttpModule, IonicModule.forRoot(), AppRoutingModule, FacebookModule.forRoot()],
   providers: [
     StatusBar,
     Amplify,
     SplashScreen,
+    ApiService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
