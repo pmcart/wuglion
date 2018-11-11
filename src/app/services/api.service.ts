@@ -7,6 +7,7 @@ import {
   Headers
 } from '@angular/http';
 import { environment } from './../../environments/environment';
+import 'rxjs/Rx';
 
 @Injectable()
 export class ApiService {
@@ -21,14 +22,15 @@ export class ApiService {
         'Content-Type': 'application/json'
       })
     });
-
-    this.http.post(environment.api + '/users/create', data, options).subscribe(
-      response => {
-        console.log(response);
-      },
-      error => {
-        console.log(JSON.stringify(error.json()));
-      }
-    );
+    return this.http.post(environment.api + '/users/create', data, options)
+    .map(response => response);
+    // return this.http.post(environment.api + '/users/create', data, options).subscribe(
+    //   response => {
+    //     console.log(response);
+    //   },
+    //   error => {
+    //     console.log(JSON.stringify(error.json()));
+    //   }
+    // );
   }
 }

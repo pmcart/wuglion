@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  FacebookService,
-  LoginResponse,
-  LoginOptions
-} from 'ngx-facebook';
 import Amplify, { Auth } from 'aws-amplify';
 import { environment } from './../../environments/environment';
 import { ApiService } from '../services/api.service';
+import {
+  FbService
+} from '../services/fb.service';
 
 
 @Component({
@@ -17,7 +15,7 @@ import { ApiService } from '../services/api.service';
 })
 export class SignupPage implements OnInit {
 
-  constructor(private amplify: Amplify, private fb: FacebookService, private apiService: ApiService) {
+  constructor(private amplify: Amplify, private fb: FbService, private apiService: ApiService, private router: Router,) {
     Amplify.configure(environment.amplify);
   }
 
@@ -32,7 +30,18 @@ export class SignupPage implements OnInit {
       })
       .then(data => {
           console.log(data);
-          this.apiService.createUser(data);
+          this.apiService.createUser(data).subscribe(
+              response => {
+                console.log(response);
+                this.router.navigateByUrl('/home');
+              },
+              error => {
+                console.log(JSON.stringify(error.json()));
+              },
+              () => {
+              console.log('Complete');
+              }
+            );
         })
       .catch(err => console.log(err));
   }
@@ -40,34 +49,25 @@ export class SignupPage implements OnInit {
   signupFacebook(): void {
       console.log('Calling signupFacebook');
 
-      const options: LoginOptions = {
-        scope: 'public_profile,user_friends,email,pages_show_list',
-        return_scopes: true,
-        enable_profile_selector: true
-      };
-
-      this.fb.login(options).then((response: LoginResponse) => {
+      this.fb.login().then((response) => {
         if (response.authResponse) {
           const token = response.authResponse.accessToken;
           const expires = response.authResponse.expiresIn;
           const userID = response.authResponse.userID;
-
-          this.fb.api('/me?fields=name,email,id,hometown,location').then(res => {
-                console.log(res);
-                Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
-                .then(credentials => {            
-                  const userData = {
-                    userSub:  '',
-                    user: {
-                      username: res.email
-                    }
-                  };
-                  this.apiService.createUser(userData);
-                }).catch(e => {
-                  console.log(e);
-                });
-            }
-          ).catch(e => console.log(e));
+          this.fb.getUserDetails().then( res => {
+            Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
+            .then(credentials => {
+              const userData = {
+                userSub:  '',
+                user: {
+                  username: res.email
+                }
+              };
+              this.apiService.createUser(userData);
+            }).catch(e => {
+              console.log(e);
+            });
+          }).catch(e => console.log(e));
 
         } else {
           console.log('There was a problem logging you in.');
