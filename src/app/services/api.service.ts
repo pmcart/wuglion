@@ -15,6 +15,17 @@ export class ApiService {
   constructor(private http: Http) {
   }
 
+  getUser(userName) {
+
+    const options = new RequestOptions({
+      headers : new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+    return this.http.get(environment.api + '/users/'+userName, options)
+    .map(response => response);
+
+  }
   createUser(data) {
 
     const options = new RequestOptions({
@@ -24,13 +35,6 @@ export class ApiService {
     });
     return this.http.post(environment.api + '/users/create', data, options)
     .map(response => response);
-    // return this.http.post(environment.api + '/users/create', data, options).subscribe(
-    //   response => {
-    //     console.log(response);
-    //   },
-    //   error => {
-    //     console.log(JSON.stringify(error.json()));
-    //   }
-    // );
+
   }
 }

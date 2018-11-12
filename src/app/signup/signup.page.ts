@@ -63,7 +63,18 @@ export class SignupPage implements OnInit {
                   username: res.email
                 }
               };
-              this.apiService.createUser(userData);
+              this.apiService.createUser(userData).subscribe(
+                response => {
+                  console.log(response);
+                  this.router.navigateByUrl('/home');
+                },
+                error => {
+                  console.log(JSON.stringify(error.json()));
+                },
+                () => {
+                console.log('Complete');
+                }
+              );
             }).catch(e => {
               console.log(e);
             });

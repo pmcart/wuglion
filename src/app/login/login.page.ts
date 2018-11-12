@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-//import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
-import {
-  FacebookService,
-  LoginResponse
-} from 'ngx-facebook';
 import Amplify, { Auth } from 'aws-amplify';
+import { environment } from './../../environments/environment';
+import { ApiService } from '../services/api.service';
+import {
+  FbService
+} from '../services/fb.service';
+
 
 @Component({
   selector: 'app-login',
@@ -14,34 +15,64 @@ import Amplify, { Auth } from 'aws-amplify';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private auth: Amplify,private router: Router,private fb: FacebookService) 
-  { }
-
-  ngOnInit() {
-    // this.auth.signIn('admin@example.com', '12345678')
-    //   .subscribe(
-    //     result => {
-    //       console.log(result)
-    //       this.router.navigate(['/']);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     });
-    //this.loginWithFacebook()
+  constructor(private amplify: Amplify, private fb: FbService, private apiService: ApiService, private router: Router,) {
+    Amplify.configure(environment.amplify);
   }
 
-  loginWithFacebook(): void {
-    console.log('Calling loginWithFacebook');
+  ngOnInit() {
+  }
 
-    // this.fb.login('email public_profile').then((authData) => {
-    //   this.auth.federatedSignIn('facebook', {
-    //       token: authData.authResponse.accessToken,
-    //       expires_at: authData.authResponse.expiresIn
-    //     }, authData.authResponse.userID)
-    //     .then(user => console.log(user))
-    //     .catch(err => console.log(err));
-    //   console.log(authData)
-    //     });
-       }
-    
+  login(username: string, password: string) {
+    // Cognito Signup
+    console.log(username)
+    console.log(password)
+    Auth.signIn(
+      username,
+      password
+      )
+      .then(data => {
+          console.log(data);
+          this.router.navigateByUrl('/home');
+      })
+      .catch(err => console.log(err));
+  }
+
+  loginFacebook(): void {
+      console.log('Calling loginFacebook');
+
+      this.fb.login().then((response) => {
+        if (response.authResponse) {
+          const token = response.authResponse.accessToken;
+          const expires = response.authResponse.expiresIn;
+          const userID = response.authResponse.userID;
+
+          this.fb.getUserDetails().then( res => {
+
+            this.apiService.getUser(res.email).subscribe(
+              response => {
+                console.log(response)
+
+                if(response.ok){      
+                Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
+                .then(credentials => {
+                  this.router.navigateByUrl('/home');
+                })
+                }
+              },
+              error => {
+                console.log(JSON.stringify(error.json()));
+              },
+              () => {
+              console.log('Complete');
+              }
+            );
+          }).catch(e => console.log(e));
+
+        } else {
+          console.log('There was a problem logging you in.');
+        }
+
+        }).catch((error: any) => console.error(error));
+      }
+
 }
