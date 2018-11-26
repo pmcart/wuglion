@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>choose-location</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="row login-row">
+    <div class="col-md-6 offset-md-3 text-center">
+        <div class="card">
+
+            <h3>Choose Your Location</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="mr-sm-2" for="choose-region">Region</label>
+                </div>
+
+                <div class="col-sm-4">
+
+                    <select class="form-control" id="choose-region" [(ngModel)]="selectedCity">
+                            <option *ngFor="let c of cities" [ngValue]="c">{{c.name}}</option>
+                          </select>
+
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-sm-12 ">
+                    <button (click)="setLocation() " class="btn btn-success ">Ok</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</ion-content>

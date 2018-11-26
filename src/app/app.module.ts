@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ApiService } from './services/api.service';
 import { FbService } from './services/fb.service';
+import { UserService } from './services/user.service';
 import Amplify, { Auth } from 'aws-amplify';
 import { FacebookModule } from 'ngx-facebook';
 import { HttpModule } from '@angular/http';
@@ -24,6 +25,7 @@ import { HttpModule } from '@angular/http';
     SplashScreen,
     ApiService,
     FbService,
+    UserService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

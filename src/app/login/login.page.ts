@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
       )
       .then(data => {
           console.log(data);
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/choose-location');
       })
       .catch(err => console.log(err));
   }
@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
                 if(response.ok){      
                 Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
                 .then(credentials => {
-                  this.router.navigateByUrl('/home');
+                  this.router.navigateByUrl('/choose-location');
                 })
                 }
               },

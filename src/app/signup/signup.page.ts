@@ -33,7 +33,7 @@ export class SignupPage implements OnInit {
           this.apiService.createUser(data).subscribe(
               response => {
                 console.log(response);
-                this.router.navigateByUrl('/home');
+                this.router.navigateByUrl('/choose-location');
               },
               error => {
                 console.log(JSON.stringify(error.json()));
@@ -66,7 +66,7 @@ export class SignupPage implements OnInit {
               this.apiService.createUser(userData).subscribe(
                 response => {
                   console.log(response);
-                  this.router.navigateByUrl('/home');
+                  this.router.navigateByUrl('/choose-location');
                 },
                 error => {
                   console.log(JSON.stringify(error.json()));
