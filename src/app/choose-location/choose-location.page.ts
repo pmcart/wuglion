@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {
   Router,
 } from '@angular/router';
@@ -12,7 +12,7 @@ import {UserService} from '../services/user.service'
 })
 export class ChooseLocationPage implements OnInit {
 
-  private isLoggedIn: boolean = false;
+  isLoggedIn: boolean = false;
   selectedCity = "@";
   // cities = [
   //   {id: 1, name: "Letterkenny"},
@@ -21,14 +21,11 @@ export class ChooseLocationPage implements OnInit {
   //   {id: 4, name: "Limerick"},
   //   {id: 5, name: "Cork"}
   // ];
-  private cities: any; 
+  cities: any; 
   constructor(private router: Router,
     private apiService: ApiService,
-    private userService: UserService) {
+    private userService: UserService, private _zone: NgZone) {
 
-      this.apiService.getCities().subscribe(cities => {
-        this.cities = cities;
-      });
     }
    
 
@@ -40,6 +37,12 @@ export class ChooseLocationPage implements OnInit {
     }
 
   ngOnInit() {
+    //this._zone.run(() =>{
+    this.apiService.getCities().subscribe(data => {
+      console.log(data)
+      this.cities = JSON.parse(data._body)
+    });
+    //});
   }
 
 }

@@ -8,6 +8,9 @@ import {
 } from '@angular/http';
 import { environment } from './../../environments/environment';
 import 'rxjs/Rx';
+import {
+  Observable
+} from 'rxjs'
 
 @Injectable()
 export class ApiService {
@@ -35,7 +38,7 @@ export class ApiService {
     .map(response => response);
   }
 
-  getCities() {
+  getCities() : Observable < any > {
     const options = new RequestOptions({
       headers : new Headers({
         'Content-Type': 'application/json'
