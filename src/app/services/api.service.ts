@@ -48,13 +48,23 @@ export class ApiService {
     .map(response => response);
   }
 
-  updateUserLocation(data) {
+  updateUserLocation(userid,data) {
     const options = new RequestOptions({
       headers : new Headers({
         'Content-Type': 'application/json'
       })
     });
-    return this.http.post(environment.api + '/users/update/location', data, options)
+    return this.http.post(environment.api + '/users/'+ userid +'/location', data, options)
+    .map(response => response);
+  }
+
+  getUserLocation(userName) {
+    const options = new RequestOptions({
+      headers : new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+    return this.http.get(environment.api + '/users/'+userName +'/location', options)
     .map(response => response);
   }
 }

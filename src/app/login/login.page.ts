@@ -6,6 +6,7 @@ import { ApiService } from '../services/api.service';
 import {
   FbService
 } from '../services/fb.service';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -15,7 +16,9 @@ import {
 })
 export class LoginPage implements OnInit {
 
-  constructor(private amplify: Amplify, private fb: FbService, private apiService: ApiService, private router: Router,) {
+  userConfirmed = true;
+
+  constructor(private amplify: Amplify, private fb: FbService, private apiService: ApiService, private userService: UserService, private router: Router,) {
     Amplify.configure(environment.amplify);
   }
 
@@ -32,9 +35,39 @@ export class LoginPage implements OnInit {
       )
       .then(data => {
           console.log(data);
-          this.router.navigateByUrl('/choose-location');
+
+          this.apiService.getUser(username).subscribe(
+            response => {
+              this.navigateRoute(response)
+            },
+            error => {
+              console.log(JSON.stringify(error.json()));
+            },
+            () => {
+            console.log('Complete');
+            }
+          );
+          
       })
-      .catch(err => console.log(err));
+      .catch(err => 
+      {
+        if(err.code = 'UserNotConfirmedException')
+        this.userConfirmed = false;
+
+        console.log(err)
+      });
+  }
+
+  navigateRoute(response) {
+    this.userService.setUser(response.json()[0])
+              
+    if(!this.userService.cityselected ||
+      this.userService.cityselected == 'null'){
+        this.router.navigateByUrl('/choose-location');
+      }
+    else{
+      this.router.navigateByUrl('/home');
+    }
   }
 
   loginFacebook(): void {
@@ -51,11 +84,12 @@ export class LoginPage implements OnInit {
             this.apiService.getUser(res.email).subscribe(
               response => {
                 console.log(response)
+                this.userService.setUser(response)
 
                 if(response.ok){      
                 Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'test' })
                 .then(credentials => {
-                  this.router.navigateByUrl('/choose-location');
+                  this.navigateRoute(response);
                 })
                 }
               },
