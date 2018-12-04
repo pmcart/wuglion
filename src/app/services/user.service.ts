@@ -7,6 +7,7 @@ export class UserService{
     imgurl: string
     gender: string
     lasttagdate: string
+    locationid: string
     cityselected: string
     regionselected: string
     countryselected: string
@@ -18,6 +19,7 @@ export class UserService{
         this.imgurl= object.imgurl
         this.gender= object.gender
         this.lasttagdate= object.lasttagdate
+        this.locationid = object.locationid
         this.cityselected= object.cityselected
         this.regionselected= object.regionselected
         this.countryselected= object.countryselected

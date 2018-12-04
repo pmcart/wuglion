@@ -67,4 +67,14 @@ export class ApiService {
     return this.http.get(environment.api + '/users/'+userName +'/location', options)
     .map(response => response);
   }
+
+  getBusinessByLocation(locationid) : Observable < any > {
+    const options = new RequestOptions({
+      headers : new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+    return this.http.get(environment.api + '/business?locationid='+locationid, options)
+    .map(response => response);
+  }
 }

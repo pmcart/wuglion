@@ -34,20 +34,7 @@ export class LoginPage implements OnInit {
       password
       )
       .then(data => {
-          console.log(data);
-
-          this.apiService.getUser(username).subscribe(
-            response => {
-              this.navigateRoute(response)
-            },
-            error => {
-              console.log(JSON.stringify(error.json()));
-            },
-            () => {
-            console.log('Complete');
-            }
-          );
-          
+          this.checkUserExists(username);
       })
       .catch(err => 
       {
@@ -58,6 +45,20 @@ export class LoginPage implements OnInit {
       });
   }
 
+  checkUserExists(username){
+    this.apiService.getUser(username).subscribe(
+      response => {
+        this.navigateRoute(response)
+      },
+      error => {
+        console.log(JSON.stringify(error.json()));
+      },
+      () => {
+      console.log('Complete');
+      }
+    );
+  }
+  
   navigateRoute(response) {
     this.userService.setUser(response.json()[0])
               
